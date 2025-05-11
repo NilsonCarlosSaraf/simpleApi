@@ -1,19 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TakeHomeAssignment.API.Controllers;
-public class TransactionsController : TransactionsBaseController
+namespace TakeHomeAssignment.API.Controllers
 {
-    [HttpGet]
-    [Route("/balance{account_id}")]
-    public IActionResult GetTransactions()
+    public class TransactionsController : TransactionsBaseController
     {
-        return Ok(new { Message = "List of transactions" });
-    }
+        [HttpPost]
+        [Route("/reset")]
+        public IActionResult Reset()
+        {
+            return Ok();
+        }
 
-    [HttpPost]
-    [Route("/event")]
-    public IActionResult CreateTransaction([FromBody] object transaction)
-    {
-        return CreatedAtAction(nameof(GetTransactions), new { Message = "Transaction created" });
+        [HttpGet]
+        [Route("/balance")]
+        public IActionResult GetBalance([FromQuery] string account_id)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("/event")]
+        public IActionResult CreateEvent()
+        {
+            return Created();
+        }
+
+
     }
 }
