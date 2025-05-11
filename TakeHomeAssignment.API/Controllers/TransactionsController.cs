@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TakeHomeAssignment.Application.useCases;
 using TakeHomeAssignment.Communication.Requests;
 
 namespace TakeHomeAssignment.API.Controllers
@@ -12,15 +13,25 @@ namespace TakeHomeAssignment.API.Controllers
         [Route("/reset")]
         public IActionResult Reset()
         {
-            return Ok();
+            return Ok("System reseted");
         }
 
         [HttpGet]
         [Route("/balance")]
-        public IActionResult GetBalance([FromQuery] string account_id)
-        {
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetBalance([FromQuery] int account_id)
+        {   
+            var useCase = new GetBalanceById().Execute(account_id);
 
-            return NotFound(0);
+            var response = useCase.Amount;
+
+            if (useCase.Account_Id == 1234)
+            {
+                return NotFound("Account not found");
+            }
+
+            return Ok(response);
         }
 
         [HttpPost]
