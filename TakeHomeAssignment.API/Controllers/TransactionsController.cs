@@ -9,11 +9,10 @@ namespace TakeHomeAssignment.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("/reset")]
         public IActionResult Reset()
         {
-            return Ok("System reseted");
+            return Ok();
         }
 
         [HttpGet]
@@ -28,7 +27,7 @@ namespace TakeHomeAssignment.API.Controllers
 
             if (useCase.Account_Id == 1234)
             {
-                return NotFound("Account not found");
+                return NotFound(0);
             }
 
             return Ok(response);
@@ -36,9 +35,23 @@ namespace TakeHomeAssignment.API.Controllers
 
         [HttpPost]
         [Route("/event")]
-        public IActionResult CreateEvent([FromBody] RequestTransaction transaction)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult CreateEvent([FromBody] RequestCreateAccount transaction)
         {
-            return Ok();
+            var useCase = new CreateAccount().Execute();
+
+            var response = useCase;
+
+            var validation = useCase.Origin == 200 &&
+                useCase.Type == Communication.Enums.TransactionType.Withdraw &&
+                useCase.Amount == 10;
+
+            if (validation) {
+                return NotFound(0);
+            }
+
+            return Created(string.Empty, response);
         }
     }
 }

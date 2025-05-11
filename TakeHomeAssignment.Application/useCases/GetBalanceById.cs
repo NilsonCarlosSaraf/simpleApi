@@ -12,7 +12,7 @@ public class GetBalanceById
             Type = Communication.Enums.TransactionType.Deposit,
             Origin = 100,
             Destination = "DestinationAccount",
-            Amount = 100
+            Amount = 20
         };
         return balance;
     }
