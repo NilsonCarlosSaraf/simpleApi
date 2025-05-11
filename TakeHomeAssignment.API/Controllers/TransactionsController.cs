@@ -9,7 +9,7 @@ public class TransactionsController : TransactionsBaseController
     {
         return Ok(new { Message = "List of transactions" });
     }
-    //test merging strategy
+
     [HttpPost]
     [Route("/event")]
     public IActionResult CreateTransaction([FromBody] object transaction)
