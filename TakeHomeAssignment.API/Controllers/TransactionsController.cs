@@ -18,16 +18,17 @@ namespace TakeHomeAssignment.API.Controllers
 
         [HttpGet]
         [Route("/balance")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetBalance([FromQuery] int account_id)
         {   
-            var useCase = new GetBalanceById();
+            var useCase = new GetBalanceById().Execute(account_id);
 
-            var response = useCase.Execute(account_id);
+            var response = useCase.Amount;
 
-            if (response.Account_Id == 1234)
+            if (useCase.Account_Id == 1234)
             {
-                return BadRequest("Account not found");
+                return NotFound("Account not found");
             }
 
             return Ok(response);
