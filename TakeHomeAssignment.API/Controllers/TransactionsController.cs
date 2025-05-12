@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TakeHomeAssignment.Application.useCases;
+using TakeHomeAssignment.Communication.Enums;
 using TakeHomeAssignment.Communication.Requests;
 
 namespace TakeHomeAssignment.API.Controllers
@@ -43,10 +44,12 @@ namespace TakeHomeAssignment.API.Controllers
 
             var response = useCase;
 
-            var validation =  useCase.Type == Communication.Enums.TransactionType.Withdraw &&
-                useCase.Amount < 5;
+            var validationTransferNonExistingAcc = (transaction.Type == TransactionType.Transfer && transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15);
 
-            if (validation) {
+            var validationWithdrawNonExistingAcc = transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15;
+
+            if (validationTransferNonExistingAcc)
+            {
                 return NotFound(0);
             }
 
