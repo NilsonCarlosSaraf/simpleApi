@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TakeHomeAssignment.Application.Handlers;
 using TakeHomeAssignment.Application.useCases;
-using TakeHomeAssignment.Communication.Enums;
+using TakeHomeAssignment.Communication;
 using TakeHomeAssignment.Communication.Requests;
 
 namespace TakeHomeAssignment.API.Controllers
@@ -21,7 +22,7 @@ namespace TakeHomeAssignment.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetBalance([FromQuery] int account_id)
-        {   
+        {
             var useCase = new GetBalanceById().Execute(account_id);
 
             var response = useCase.Amount;
@@ -33,27 +34,23 @@ namespace TakeHomeAssignment.API.Controllers
 
             return Ok(response);
         }
+        private static readonly Dictionary<string, int> _accounts = new();
 
         [HttpPost]
         [Route("/event")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult CreateEvent([FromBody] RequestCreateAccount transaction)
+        public IActionResult Event([FromBody] RequestEvent request)
         {
-            var response = new DepositToAccount().Execute(transaction);
-
-            var validationTransferNonExistingAcc = (transaction.Type == TransactionType.Transfer && transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15);
-
-            var validationWithdrawNonExistingAcc = (transaction.Type == TransactionType.Withdraw && transaction.Origin == 200 && transaction.Amount == 10);
-
-            var isTransactionValid = validationWithdrawNonExistingAcc || validationTransferNonExistingAcc;
-
-            if (isTransactionValid)
+            var result = request.Type.ToLower() switch
             {
-                return NotFound(0);
-            }
+                "deposit" => new DepositHandler(_accounts).Handle(request),
+                "withdraw" => new WithdrawHandler(_accounts).Handle(request),
+                "transfer" => new TransferHandler(_accounts).Handle(request),
+                _ => new EventResult(400, "Invalid event type.")
+            };
 
-            return Created(string.Empty, response);
+            return StatusCode(result.StatusCode, result.Data);
         }
     }
 }
