@@ -9,7 +9,7 @@ public class GetBalanceById
         var balance = new ResponseRegisteredBalance
         {
             Account_Id = account_id,
-            Type = Communication.Enums.TransactionType.Deposit,
+            Type = Communication.Enums.TransactionType.deposit,
             Origin = 100,
             Destination = "DestinationAccount",
             Amount = 20

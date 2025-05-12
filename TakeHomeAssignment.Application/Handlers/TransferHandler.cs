@@ -12,13 +12,13 @@ namespace TakeHomeAssignment.Application.Handlers
             _accounts = accounts;
         }
 
-        public EventResult Handle(RequestEvent request)
+        public ResponseEvent Handle(RequestEvent request)
         {
             var origin = request.Origin!;
             var destination = request.Destination!;
 
             if (!_accounts.ContainsKey(origin) || _accounts[origin] < request.Amount)
-                return new EventResult(404, 0);
+                return new ResponseEvent(404, 0);
 
             _accounts[origin] -= request.Amount;
 
@@ -27,7 +27,7 @@ namespace TakeHomeAssignment.Application.Handlers
 
             _accounts[destination] += request.Amount;
 
-            return new EventResult(201, new
+            return new ResponseEvent(201, new
             {
                 origin = new
                 {
