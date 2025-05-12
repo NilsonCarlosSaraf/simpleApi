@@ -4,7 +4,7 @@ namespace TakeHomeAssignment.Communication.Requests;
 
 public class Destination
 {
-    public string Id { get; set; } = string.Empty;
+    public int? Id { get; set; }
     public decimal Balance { get; set; }
 }
 
@@ -14,7 +14,5 @@ public class RequestCreateAccount
 
     public Destination Destination { get; set; }
     public int Amount { get; set; }
-
-
-
+    public int Origin { get; set; }
 }
