@@ -12,7 +12,7 @@ namespace TakeHomeAssignment.Application.Handlers
             _accounts = accounts;
         }
 
-        public EventResult Handle(RequestEvent request)
+        public ResponseEvent Handle(RequestEvent request)
         {
             var accountId = request.Destination!;
             if (!_accounts.ContainsKey(accountId))
@@ -20,7 +20,7 @@ namespace TakeHomeAssignment.Application.Handlers
 
             _accounts[accountId] += request.Amount;
 
-            return new EventResult(201, new
+            return new ResponseEvent(201, new
             {
                 destination = new
                 {

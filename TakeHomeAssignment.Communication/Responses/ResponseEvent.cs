@@ -1,11 +1,11 @@
 ﻿namespace TakeHomeAssignment.Communication
 {
-    public class EventResult
+    public class ResponseEvent
     {
         public int StatusCode { get; set; }
         public object? Data { get; set; }
 
-        public EventResult(int statusCode, object? data)
+        public ResponseEvent(int statusCode, object? data)
         {
             StatusCode = statusCode;
             Data = data;

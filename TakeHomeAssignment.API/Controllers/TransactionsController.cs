@@ -47,7 +47,7 @@ namespace TakeHomeAssignment.API.Controllers
                 "deposit" => new DepositHandler(_accounts).Handle(request),
                 "withdraw" => new WithdrawHandler(_accounts).Handle(request),
                 "transfer" => new TransferHandler(_accounts).Handle(request),
-                _ => new EventResult(400, "Invalid event type.")
+                _ => new ResponseEvent(400, "Invalid event type.")
             };
 
             return StatusCode(result.StatusCode, result.Data);
