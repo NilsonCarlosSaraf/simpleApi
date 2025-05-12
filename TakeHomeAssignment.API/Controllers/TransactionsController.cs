@@ -39,13 +39,12 @@ namespace TakeHomeAssignment.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult CreateEvent([FromBody] RequestCreateAccount transaction)
         {
-            var useCase = new CreateAccount().Execute();
+            var useCase = new CreateAccount().Execute(transaction);
 
             var response = useCase;
 
-            var validation = useCase.Origin == 200 &&
-                useCase.Type == Communication.Enums.TransactionType.Withdraw &&
-                useCase.Amount == 10;
+            var validation =  useCase.Type == Communication.Enums.TransactionType.Withdraw &&
+                useCase.Amount < 5;
 
             if (validation) {
                 return NotFound(0);
