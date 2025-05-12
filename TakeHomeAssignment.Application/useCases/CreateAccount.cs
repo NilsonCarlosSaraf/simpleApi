@@ -10,7 +10,6 @@ public class CreateAccount
     {
         var response = new ResponseCreateAccount
         {
-            Type = transaction.Type,
             Destination = transaction.Destination != null ? new Destination
             {
                 Id = transaction.Destination.Id ?? 0,
