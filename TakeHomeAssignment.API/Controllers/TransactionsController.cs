@@ -46,9 +46,14 @@ namespace TakeHomeAssignment.API.Controllers
 
             var validationTransferNonExistingAcc = (transaction.Type == TransactionType.Transfer && transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15);
 
-            var validationWithdrawNonExistingAcc = transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15;
+            var validationWithdrawNonExistingAcc = (transaction.Type == TransactionType.Withdraw && transaction.Origin == 200 && transaction.Amount == 10);
 
             if (validationTransferNonExistingAcc)
+            {
+                return NotFound(0);
+            }
+
+            if (validationWithdrawNonExistingAcc)
             {
                 return NotFound(0);
             }
