@@ -40,7 +40,7 @@ namespace TakeHomeAssignment.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult CreateEvent([FromBody] RequestCreateAccount transaction)
         {
-            var response = new CreateAccount().Execute(transaction);
+            var response = new DepositToAccount().Execute(transaction);
 
             var validationTransferNonExistingAcc = (transaction.Type == TransactionType.Transfer && transaction.Destination.Id == 300 && transaction.Origin == 200 && transaction.Amount == 15);
 

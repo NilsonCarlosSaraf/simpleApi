@@ -4,7 +4,7 @@ using Destination = TakeHomeAssignment.Communication.Responses.Destination;
 
 namespace TakeHomeAssignment.Application.useCases;
 
-public class CreateAccount
+public class DepositToAccount
 {
     public ResponseCreateAccount Execute(RequestCreateAccount transaction)
     {
@@ -13,10 +13,8 @@ public class CreateAccount
             Destination = transaction.Destination != null ? new Destination
             {
                 Id = transaction.Destination.Id ?? 0,
-                Balance = transaction.Destination.Balance,
+                Balance = transaction.Amount,
             } : null,
-            Amount = transaction.Amount,
-            Origin = transaction.Origin,
         };  
         return response;
     }
